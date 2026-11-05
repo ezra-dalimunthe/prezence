@@ -20,7 +20,10 @@ class TeacherController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Teachers/Index', [
-            'teachers' => Teacher::with('user')->orderBy('name')->get(),
+            'teachers' => Teacher::with('user')
+                ->orderBy('name')
+                ->paginate(10)
+                ->withQueryString(),
             'createAccountFor' => request()->integer('create_account_for') ?: null,
         ]);
     }

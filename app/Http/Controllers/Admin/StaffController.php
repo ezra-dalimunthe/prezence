@@ -20,7 +20,10 @@ class StaffController extends Controller
     public function index()
     {
         return Inertia::render('Admin/Staff/Index', [
-            'staff' => Staff::with('user')->orderBy('name')->get(),
+            'staff' => Staff::with('user')
+                ->orderBy('name')
+                ->paginate(10)
+                ->withQueryString(),
             'createAccountFor' => request()->integer('create_account_for') ?: null,
         ]);
     }

@@ -1,0 +1,11 @@
+import { Head, router } from '@inertiajs/react';
+import { Box, Button, Paper, Stack, Table, TableBody, TableCell, TableHead, TablePagination, TableRow, Typography } from '@mui/material';
+import MainLayout from '@/layouts/MainLayout';
+
+type Assignment = { id: number; teacher: { name: string }; subject: { name: string }; class_room: { name: string; level: string } };
+type Pagination<T> = { data: T[]; current_page: number; per_page: number; total: number };
+export default function TeachingAssignmentIndex({ assignments }: { assignments: Pagination<Assignment> }) {
+    function changePage(page: number) { router.get('/admin/teaching-assignments', { page: page + 1 }, { preserveState: true, preserveScroll: true }); }
+    function destroy(id: number) { if (window.confirm('Hapus TeachingAssignment ini?')) router.delete(`/admin/teaching-assignments/${id}`); }
+    return <><Head title="TeachingAssignments" /><MainLayout><Stack spacing={2}><Stack direction="row" sx={{ justifyContent: 'space-between' }}><Typography variant="h4">TeachingAssignments</Typography><Box sx={{ width: '100px' }}><Button size="small" fullWidth variant="contained" onClick={() => router.visit('/admin/teaching-assignments/create')}>Tambah</Button></Box></Stack><Paper><Table><TableHead><TableRow><TableCell>Teacher</TableCell><TableCell>Subject</TableCell><TableCell>ClassRoom</TableCell><TableCell>Action</TableCell></TableRow></TableHead><TableBody>{assignments.data.map((assignment) => <TableRow key={assignment.id}><TableCell>{assignment.teacher.name}</TableCell><TableCell>{assignment.subject.name}</TableCell><TableCell>{assignment.class_room.level} - {assignment.class_room.name}</TableCell><TableCell><Box sx={{ width: '100px' }}><Button size="small" fullWidth onClick={() => router.visit(`/admin/teaching-assignments/${assignment.id}/edit`)}>Edit</Button></Box><Box sx={{ width: '100px' }}><Button size="small" fullWidth color="error" onClick={() => destroy(assignment.id)}>Delete</Button></Box></TableCell></TableRow>)}</TableBody></Table><TablePagination component="div" count={assignments.total} page={assignments.current_page - 1} rowsPerPage={assignments.per_page} rowsPerPageOptions={[assignments.per_page]} onPageChange={(_, page) => changePage(page)} labelRowsPerPage="Data per halaman" /></Paper></Stack></MainLayout></>;
+}

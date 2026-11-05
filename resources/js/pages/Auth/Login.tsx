@@ -1,4 +1,4 @@
-import { useForm } from '@inertiajs/react';
+import { useForm } from "@inertiajs/react";
 import {
     Alert,
     Box,
@@ -7,24 +7,24 @@ import {
     Stack,
     TextField,
     Typography,
-} from '@mui/material';
-import MainLayout from '@/layouts/MainLayout';
-import type { FormEvent } from 'react';
+} from "@mui/material";
+import MainLayout from "@/layouts/MainLayout";
+import type { FormEvent } from "react";
 
 export default function Login() {
     const { data, setData, post, processing, errors } = useForm({
-        email: '',
-        password: '',
+        email: "",
+        password: "",
     });
 
     function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        post('/login');
+        post("/login");
     }
 
     return (
         <MainLayout>
-            <Paper sx={{ maxWidth: 480, mx: 'auto', p: 4 }}>
+            <Paper sx={{ maxWidth: 480, mx: "auto", p: 4 }}>
                 <Box sx={{ mb: 3 }}>Welcome to Prezence!</Box>
                 <Stack
                     component="form"
@@ -39,11 +39,12 @@ export default function Login() {
                     )}
 
                     <TextField
+                        size="small"
                         label="Email"
                         type="email"
                         value={data.email}
                         onChange={(event) =>
-                            setData('email', event.target.value)
+                            setData("email", event.target.value)
                         }
                         error={Boolean(errors.email)}
                         helperText={errors.email}
@@ -51,24 +52,27 @@ export default function Login() {
                     />
 
                     <TextField
+                        size="small"
                         label="Password"
                         type="password"
                         value={data.password}
                         onChange={(event) =>
-                            setData('password', event.target.value)
+                            setData("password", event.target.value)
                         }
                         error={Boolean(errors.password)}
                         helperText={errors.password}
                         required
                     />
-
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        disabled={processing}
-                    >
-                        {processing ? 'Memproses...' : 'Login'}
-                    </Button>
+                    <Box sx={{ width: "100px" }}>
+                        <Button
+                            size="small"
+                            type="submit"
+                            variant="contained"
+                            disabled={processing}
+                        >
+                            {processing ? "Memproses..." : "Login"}
+                        </Button>
+                    </Box>
                 </Stack>
             </Paper>
         </MainLayout>

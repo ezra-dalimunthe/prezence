@@ -6,6 +6,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\ClassRoomController;
+use App\Http\Controllers\Admin\TeachingAssignmentController;
+use App\Http\Controllers\Teacher\AttendanceController;
+use App\Http\Controllers\Admin\ImportStudentController;
+use App\Http\Controllers\Admin\ImportTeacherController;
 
 use Inertia\Inertia;
 
@@ -34,6 +40,16 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
+
+    Route::middleware('role:teacher')
+        ->prefix('teacher')
+        ->name('teacher.')
+        ->group(function () {
+            Route::get('/attendances', [AttendanceController::class, 'index'])
+                ->name('attendances.index');
+            Route::post('/attendances', [AttendanceController::class, 'store'])
+                ->name('attendances.store');
+        });
 
     Route::middleware('role:admin')
         ->prefix('admin')
@@ -77,5 +93,18 @@ Route::middleware('auth')->group(function () {
                 ->name('staff.update');
             Route::post('/staff/{staff}/account', [StaffController::class, 'createAccount'])
                 ->name('staff.account');
+
+            Route::resource('subjects', SubjectController::class)->except(['show']);
+            Route::resource('class-rooms', ClassRoomController::class)->except(['show']);
+            Route::resource('teaching-assignments', TeachingAssignmentController::class)->except(['show']);
+
+            Route::get('/import/teachers', [ImportTeacherController::class, 'create'])
+                ->name('import.teachers.create');
+            Route::post('/import/teachers', [ImportTeacherController::class, 'store'])
+                ->name('import.teachers.store');
+            Route::get('/import/students', [ImportStudentController::class, 'create'])
+                ->name('import.students.create');
+            Route::post('/import/students', [ImportStudentController::class, 'store'])
+                ->name('import.students.store');
         });
 });

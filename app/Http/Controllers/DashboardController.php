@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Staff;
 use App\Models\Student;
 use App\Models\Teacher;
+use App\Models\TeachingAssignment;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,7 +24,12 @@ class DashboardController extends Controller
                     'numberOfStaffs' => Staff::count()
                 ]
                 ,
-                default => []
+                'teacher' => [
+                    'assignments' => TeachingAssignment::with(['subject', 'classRoom'])
+                        ->where('teacher_id', $request->user()->profile_id)
+                        ->get(),
+                ],
+                default => [],
             }
 
         ]);
