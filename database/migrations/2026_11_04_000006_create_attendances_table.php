@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained('students')->restrictOnDelete();
             $table->foreignId('teaching_assignment_id')->constrained('teaching_assignments')->restrictOnDelete();
-            $table->dateTime('attendance_datetime');
+            $table->date('attendance_date');
             $table->string('status', 20);
             $table->text('note')->nullable();
             $table->timestamps();

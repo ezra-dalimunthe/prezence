@@ -11,12 +11,18 @@ class Attendance extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id', 'teaching_assignment_id', 'attendance_datetime', 'status', 'note',
+        'student_id',
+        'teaching_assignment_id',
+        'attendance_date',
+        'status',
+        'note',
     ];
 
     protected function casts(): array
     {
-        return ['attendance_datetime' => 'datetime'];
+        return [
+            'attendance_date' => 'date',
+        ];
     }
 
     public function student(): BelongsTo

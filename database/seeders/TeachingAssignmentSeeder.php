@@ -19,12 +19,12 @@ class TeachingAssignmentSeeder extends Seeder
         ];
 
         $assignments = [
-            [$teachers[0], 'Bahasa Indonesia', 'X-A'],
-            [$teachers[0], 'Sejarah', 'X-B'],
-            [$teachers[1], 'Pendidikan Pancasila', 'XI-A'],
-            [$teachers[1], 'Bahasa Inggris', 'XI-B'],
-            [$teachers[2], 'Matematika', 'XII-A'],
-            [$teachers[2], 'PJOK', 'XII-B'],
+            [$teachers[0], 'Bahasa Indonesia', 'X-TKJ-1'],
+            [$teachers[0], 'Bahasa Indonesia', 'X-RPL-1'],
+            [$teachers[1], 'Pendidikan Pancasila','X-TKJ-1'],
+            [$teachers[1], 'Pendidikan Pancasila','X-RPL-1'],
+            [$teachers[2], 'Matematika', 'X-TKJ-1'],
+            [$teachers[2], 'Matematika', 'X-RPL-1'],
         ];
 
         foreach ($assignments as [$teacher, $subjectName, $className]) {

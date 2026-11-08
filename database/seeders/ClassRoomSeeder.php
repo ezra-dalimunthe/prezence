@@ -10,12 +10,12 @@ class ClassRoomSeeder extends Seeder
     public function run(): void
     {
         foreach ([
-            ['name' => 'X-A', 'level' => 'X'],
-            ['name' => 'X-B', 'level' => 'X'],
-            ['name' => 'XI-A', 'level' => 'XI'],
-            ['name' => 'XI-B', 'level' => 'XI'],
-            ['name' => 'XII-A', 'level' => 'XII'],
-            ['name' => 'XII-B', 'level' => 'XII'],
+            ['name' => 'X-TKJ-1', 'level' => 'X'],
+            ['name' => 'X-RPL-1', 'level' => 'X'],
+            ['name' => 'XI-TKJ-1', 'level' => 'XI'],
+            ['name' => 'XI-RPL-1', 'level' => 'XI'],
+            ['name' => 'XII-TKJ-1', 'level' => 'XII'],
+            ['name' => 'XII-RPL-1', 'level' => 'XII'],
         ] as $classRoom) {
             ClassRoom::firstOrCreate(['name' => $classRoom['name']], $classRoom);
         }
