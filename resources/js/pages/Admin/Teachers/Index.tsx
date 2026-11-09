@@ -7,6 +7,7 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableContainer,
     TableHead,
     TablePagination,
     TableRow,
@@ -20,7 +21,7 @@ type Teacher = {
     id: number;
     name: string;
     mobile_phone: string;
-    user?: { email: string } | null;
+    user?: { id: number; email: string } | null;
 };
 type Pagination<T> = {
     data: T[];
@@ -51,14 +52,14 @@ export default function TeacherIndex({
             <Head title="Teachers" />
             <MainLayout>
                 <Stack spacing={2}>
-                    <Typography variant="h4">Teachers</Typography>
+                    <Typography variant="h4">Guru</Typography>
                     <Stack
                         direction="row"
                         spacing={1}
                         sx={{ justifyContent: "flex-end" }}
                     >
-                        <Stack direction="row" spacing={1} >
-                            <Box sx={{display:"flex"}}>
+                        <Stack direction="row" spacing={1}>
+                            <Box sx={{ display: "flex" }}>
                                 <Button
                                     size="small"
                                     fullWidth
@@ -67,10 +68,10 @@ export default function TeacherIndex({
                                     }
                                     variant="contained"
                                 >
-                                    Tambah Teacher
+                                    Tambah
                                 </Button>
                             </Box>
-                            <Box sx={{display:"flex"}}>
+                            <Box sx={{ display: "flex" }}>
                                 <Button
                                     size="small"
                                     fullWidth
@@ -79,78 +80,94 @@ export default function TeacherIndex({
                                     }
                                     variant="outlined"
                                 >
-                                    Import Teacher
+                                    Import
                                 </Button>
                             </Box>
                         </Stack>
                     </Stack>
                     <Paper>
-                        <Table>
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell>Name</TableCell>
-                                    <TableCell>Mobile Phone</TableCell>
-                                    <TableCell>Email</TableCell>
-                                    <TableCell>Action</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {teachers.data.map((teacher) => (
-                                    <TableRow key={teacher.id}>
-                                        <TableCell>{teacher.name}</TableCell>
-                                        <TableCell>
-                                            {teacher.mobile_phone}
+                        <TableContainer>
+                            <Table>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell sx={{ width: "auto" }}>
+                                            Name
                                         </TableCell>
-                                        <TableCell>
-                                            {teacher.user?.email ?? "-"}
+                                        <TableCell>Mobile Phone</TableCell>
+                                        <TableCell>Email</TableCell>
+                                        <TableCell
+                                            colSpan={2}
+                                            sx={{ width: "350px" }}
+                                        >
+                                            Action
                                         </TableCell>
-                                        <TableCell>
-                                            <Box sx={{ display: "flex" }}>
-                                                <Box sx={{ width: "100px" }}>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {teachers.data.map((teacher) => (
+                                        <TableRow key={teacher.id}>
+                                            <TableCell>
+                                                {teacher.name}
+                                            </TableCell>
+                                            <TableCell>
+                                                {teacher.mobile_phone}
+                                            </TableCell>
+                                            <TableCell>
+                                                {teacher.user?.email ?? "-"}
+                                            </TableCell>
+                                            <TableCell sx={{ width: "50px" }}>
+                                                <Button
+                                                    size="small"
+                                                    fullWidth
+                                                    onClick={() =>
+                                                        router.visit(
+                                                            `/admin/teachers/${teacher.id}/edit`,
+                                                        )
+                                                    }
+                                                >
+                                                    Edit
+                                                </Button>
+                                            </TableCell>
+                                            <TableCell sx={{width:"250px"}}>
+                                                {!teacher.user && (
                                                     <Button
                                                         size="small"
-                                                        fullWidth
                                                         onClick={() =>
-                                                            router.visit(
-                                                                `/admin/teachers/${teacher.id}/edit`,
+                                                            setAccountFor(
+                                                                teacher.id,
                                                             )
                                                         }
                                                     >
-                                                        Edit
+                                                        Create account
                                                     </Button>
-                                                </Box>
-                                                {!teacher.user && (
-                                                    <Box
-                                                        sx={{ width: "200px" }}
-                                                    >
-                                                        <Button
-                                                            size="small"
-                                                            fullWidth
-                                                            onClick={() =>
-                                                                setAccountFor(
-                                                                    teacher.id,
-                                                                )
-                                                            }
-                                                        >
-                                                            Create account
-                                                        </Button>
-                                                    </Box>
                                                 )}
-                                            </Box>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                        <TablePagination
-                            component="div"
-                            count={teachers.total}
-                            page={teachers.current_page - 1}
-                            rowsPerPage={teachers.per_page}
-                            rowsPerPageOptions={[teachers.per_page]}
-                            onPageChange={(_, page) => changePage(page)}
-                            labelRowsPerPage="Data per halaman"
-                        />
+                                                {teacher.user && (
+                                                    <Button
+                                                        size="small"
+                                                        onClick={() =>
+                                                            router.visit(
+                                                                `/admin/accounts/${teacher.user?.id}/edit`,
+                                                            )
+                                                        }
+                                                    >
+                                                        Edit Account
+                                                    </Button>
+                                                )}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                            <TablePagination
+                                component="div"
+                                count={teachers.total}
+                                page={teachers.current_page - 1}
+                                rowsPerPage={teachers.per_page}
+                                rowsPerPageOptions={[teachers.per_page]}
+                                onPageChange={(_, page) => changePage(page)}
+                                labelRowsPerPage="Data per halaman"
+                            />
+                        </TableContainer>
                     </Paper>
                 </Stack>
             </MainLayout>

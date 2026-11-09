@@ -6,6 +6,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     const { auth } = usePage().props;
     const user = auth?.user;
     const isAdmin = user?.role === 'admin';
+    const isTeacher = user?.role === 'teacher';
 
     return (
         <>
@@ -19,25 +20,29 @@ export default function MainLayout({ children }: { children: ReactNode }) {
                     {isAdmin && (
                         <>
                             <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/admin/teachers')}>
-                                Teachers
+                                Guru
                             </Button></Box>
                             <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/admin/students')}>
-                                Students
+                                Siswa
                             </Button></Box>
                             <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/admin/staff')}>
-                                Staff
+                                Staf
                             </Button></Box>
                             <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/admin/subjects')}>
-                                Subjects
+                                Mapel
                             </Button></Box>
                             <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/admin/class-rooms')}>
-                                ClassRooms
+                                Kelas
                             </Button></Box>
                             <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/admin/teaching-assignments')}>
-                                Assignments
+                                Penugasan
                             </Button></Box>
                         </>
                     )}
+
+                    {isTeacher && <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/teacher/reports')}>Laporan</Button></Box>}
+
+                    {user && <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/profile')}>Profil</Button></Box>}
 
                     <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/about')}>About</Button></Box>
                     <Box sx={{ width: '100px' }}><Button size="small" fullWidth color="inherit" onClick={() => router.visit('/guide')}>Guide</Button></Box>

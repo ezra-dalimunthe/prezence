@@ -27,9 +27,58 @@ class DashboardController extends Controller
                 'teacher' => [
                     ...$this->teacherDashboardPayload($request),
                 ],
+                'student' => [
+                    ...$this->studentDashboardPayload($request),
+                ],
                 default => [],
             },
         ]);
+    }
+
+    private function studentDashboardPayload(Request $request): array
+    {
+        $student = $request->user()->profile;
+        abort_unless($student instanceof Student, 403);
+
+        $month = $request->integer('month', now()->month);
+        $year = $request->integer('year', now()->year);
+
+        if ($month < 1 || $month > 12) {
+            $month = now()->month;
+        }
+
+        if ($year < 2000 || $year > 2100) {
+            $year = now()->year;
+        }
+
+        $startDate = Carbon::create($year, $month, 1)->startOfDay();
+        $endDate = $startDate->copy()->endOfMonth()->endOfDay();
+
+        $attendanceHistory = $student->attendances()
+            ->with(['teachingAssignment.subject', 'teachingAssignment.classRoom','teachingAssignment.teacher'])
+            ->whereBetween('attendance_date', [
+                $startDate->toDateString(),
+                $endDate->toDateString(),
+            ])
+            ->orderBy('attendance_date')
+            ->get()->groupBy(function ($item, $key) {
+                return substr($item['attendance_date'], 0, 10);
+            });
+
+        return [
+            'student' => [
+                'id' => $student->id,
+                'name' => $student->name,
+                'nis' => $student->nis,
+                'class_room' => $student->classRoom ? [
+                    'name' => $student->classRoom->name,
+                    'level' => $student->classRoom->level,
+                ] : null,
+            ],
+            'month' => $month,
+            'year' => $year,
+            'attendanceHistory' => $attendanceHistory,
+        ];
     }
 
     private function teacherDashboardPayload(Request $request): array

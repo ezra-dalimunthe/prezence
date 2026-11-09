@@ -18,7 +18,7 @@ class TeachingAssignmentController extends Controller
     {
         return Inertia::render('Admin/TeachingAssignments/Index', [
             'assignments' => TeachingAssignment::with(['teacher', 'subject', 'classRoom'])
-                ->orderBy('id')->paginate(10)->withQueryString(),
+                ->orderBy('teacher_id')->paginate(10)->withQueryString(),
         ]);
     }
 

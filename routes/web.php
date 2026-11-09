@@ -10,8 +10,11 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\ClassRoomController;
 use App\Http\Controllers\Admin\TeachingAssignmentController;
 use App\Http\Controllers\Teacher\AttendanceController;
+use App\Http\Controllers\Teacher\ReportController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ImportStudentController;
 use App\Http\Controllers\Admin\ImportTeacherController;
+use App\Http\Controllers\Admin\AccountController;
 
 use Inertia\Inertia;
 
@@ -41,6 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
+    Route::get('/profile', [ProfileController::class, 'show'])
+        ->name('profile.show');
+    Route::put('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])
+        ->name('profile.password.update');
+
     Route::middleware('role:teacher')
         ->prefix('teacher')
         ->name('teacher.')
@@ -49,6 +59,8 @@ Route::middleware('auth')->group(function () {
                 ->name('attendances.index');
             Route::post('/attendances', [AttendanceController::class, 'store'])
                 ->name('attendances.store');
+            Route::get('/reports', [ReportController::class, 'index'])
+                ->name('reports.index');
         });
 
     Route::middleware('role:admin')
@@ -93,6 +105,13 @@ Route::middleware('auth')->group(function () {
                 ->name('staff.update');
             Route::post('/staff/{staff}/account', [StaffController::class, 'createAccount'])
                 ->name('staff.account');
+
+            Route::get('/accounts/{user}/edit', [AccountController::class, 'edit'])
+                ->name('accounts.edit');
+            Route::put('/accounts/{user}', [AccountController::class, 'update'])
+                ->name('accounts.update');
+            Route::post('/accounts/{user}/reset-password', [AccountController::class, 'resetPassword'])
+                ->name('accounts.reset-password');
 
             Route::resource('subjects', SubjectController::class)->except(['show']);
             Route::resource('class-rooms', ClassRoomController::class)->except(['show']);

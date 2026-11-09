@@ -15,6 +15,7 @@ import {
     FormControl,
     FormLabel,
     Alert,
+    TableContainer,
 } from "@mui/material";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -127,7 +128,7 @@ export default function AttendanceIndex({
     return (
         <>
             <Head title="Attendance" />
-          
+
             <MainLayout>
                 <Stack spacing={2}>
                     <Typography variant="h4">Pencatatan Kehadiran</Typography>
@@ -203,63 +204,67 @@ export default function AttendanceIndex({
                             </Box>
 
                             {students.length > 0 && (
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>NIS</TableCell>
-                                            <TableCell>Name</TableCell>
-                                            <TableCell>Status</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {students.map((student) => (
-                                            <TableRow key={student.id}>
-                                                <TableCell>
-                                                    {student.nis}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {student.name}
-                                                </TableCell>
-                                                <TableCell>
-                                                    <Select
-                                                        size="small"
-                                                        value={
-                                                            form.data
-                                                                .attendances[
-                                                                student.id
-                                                            ] ?? "present"
-                                                        }
-                                                        onChange={(e) =>
-                                                            form.setData(
-                                                                "attendances",
-                                                                {
-                                                                    ...form.data
-                                                                        .attendances,
-                                                                    [student.id]:
-                                                                        e.target
-                                                                            .value,
-                                                                },
-                                                            )
-                                                        }
-                                                    >
-                                                        <MenuItem value="present">
-                                                            Hadir
-                                                        </MenuItem>
-                                                        <MenuItem value="excused">
-                                                            Izin
-                                                        </MenuItem>
-                                                        <MenuItem value="sick">
-                                                            Sakit
-                                                        </MenuItem>
-                                                        <MenuItem value="absent">
-                                                            Alpa
-                                                        </MenuItem>
-                                                    </Select>
-                                                </TableCell>
+                                <TableContainer>
+                                    <Table>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell>NIS</TableCell>
+                                                <TableCell>Name</TableCell>
+                                                <TableCell>Status</TableCell>
                                             </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
+                                        </TableHead>
+                                        <TableBody>
+                                            {students.map((student) => (
+                                                <TableRow key={student.id}>
+                                                    <TableCell>
+                                                        {student.nis}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        {student.name}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <Select
+                                                            size="small"
+                                                            value={
+                                                                form.data
+                                                                    .attendances[
+                                                                    student.id
+                                                                ] ?? "present"
+                                                            }
+                                                            onChange={(e) =>
+                                                                form.setData(
+                                                                    "attendances",
+                                                                    {
+                                                                        ...form
+                                                                            .data
+                                                                            .attendances,
+                                                                        [student.id]:
+                                                                            e
+                                                                                .target
+                                                                                .value,
+                                                                    },
+                                                                )
+                                                            }
+                                                        >
+                                                            <MenuItem value="present">
+                                                                Hadir
+                                                            </MenuItem>
+                                                            <MenuItem value="excused">
+                                                                Izin
+                                                            </MenuItem>
+                                                            <MenuItem value="sick">
+                                                                Sakit
+                                                            </MenuItem>
+                                                            <MenuItem value="absent">
+                                                                Alpa
+                                                            </MenuItem>
+                                                        </Select>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             )}
                             <Box sx={{ width: "100px" }}>
                                 <Button

@@ -9,6 +9,7 @@ import {
     Table,
     TableBody,
     TableCell,
+    TableContainer,
     TableHead,
     TableRow,
     Typography,
@@ -99,30 +100,36 @@ export default function TeacherDashboard({ payload }: { payload: Payload }) {
                 {payload.classSummaries.length === 0 ? (
                     <Typography>Tidak ada data kelas.</Typography>
                 ) : (
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Kelas</TableCell>
-                                <TableCell>Jumlah murid laki-laki</TableCell>
-                                <TableCell>Jumlah murid perempuan</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {payload.classSummaries.map((classRoom) => (
-                                <TableRow key={classRoom.id}>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Kelas</TableCell>
                                     <TableCell>
-                                        {classRoom.level} {classRoom.name}
+                                        Jumlah murid laki-laki
                                     </TableCell>
                                     <TableCell>
-                                        {classRoom.male_count}
-                                    </TableCell>
-                                    <TableCell>
-                                        {classRoom.female_count}
+                                        Jumlah murid perempuan
                                     </TableCell>
                                 </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                            </TableHead>
+                            <TableBody>
+                                {payload.classSummaries.map((classRoom) => (
+                                    <TableRow key={classRoom.id}>
+                                        <TableCell>
+                                            {classRoom.level} {classRoom.name}
+                                        </TableCell>
+                                        <TableCell>
+                                            {classRoom.male_count}
+                                        </TableCell>
+                                        <TableCell>
+                                            {classRoom.female_count}
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 )}
             </Paper>
 
